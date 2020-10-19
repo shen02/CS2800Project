@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
@@ -23,25 +24,40 @@ public class Project {
   -1 4
    */
 
+  // starting state
+  // ending state
+  // win in exactly k moves
+  //
+
   public static void main(String[] args) {
     ISolver solver = SolverFactory.newDefault();
     solver.setTimeout(3600); // 1 hour timeout
     Reader reader = new DimacsReader(solver);
     PrintWriter out = new PrintWriter(System.out, true);
     // CNF filename is given on the command line
+
     try {
       Scanner c = new Scanner(System.in);
-      c.nextLine();
-      IProblem problem = reader.parseInstance(args[0]);
+      System.out.print("Enter a file name: ");
+      IProblem problem = reader.parseInstance(c.nextLine());
       if (problem.isSatisfiable()) {
         System.out.println("Satisfiable !");
         reader.decode(problem.model(), out);
       } else {
         System.out.println("Unsatisfiable !");
       }
-    } catch (IllegalArgumentException | ParseFormatException
-        | IOException | ContradictionException | TimeoutException e) {
-
+    } catch (FileNotFoundException e) {
+        System.out.print("no");
+    } catch (ContradictionException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (ParseFormatException e) {
+      e.printStackTrace();
+    } catch (TimeoutException e) {
+      e.printStackTrace();
     }
+    //IllegalArgumentException | ParseFormatException
+    //        | IOException | ContradictionException | TimeoutException e
   }
 }

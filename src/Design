@@ -1,0 +1,36 @@
+
+A state is (state, transitions) -> (int[][], list of int[][])
+A transition is (
+
+// state 0
+1,2 -> f,f
+3,4    f,f
+
+// transition 0
+1,2 ->   1     2     3     4
+3,4
+
+x1 ^ x2 ^ x3 ^ x4 -> satisfiable
+x1 => x2 x3, x4 ->
+x2 => x1 x4, x3
+x3 => x2,
+
+If transition click on tile 1 -> set contraints that 2,3,4 cannot be clicked
+If transition click on tile 2 -> set contraints where 1,3,4 cannot be clicked, and so on.
+...
+
+// state 1
+1,2 ->  t,t   t,t   t,f   f,t
+3,4     t,f   f,t   t,t   t,t
+
+
+Print out the sequence that is satisfiable in exactly k moves.
+
+
+1,2,3       click on one t,t,f
+4,5,6  ->
+7,8,9
+
+State 0 - Board of n x n, all lights "on"
+Trans 0 - list of size n^2 of all possible
+2.
