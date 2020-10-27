@@ -25,43 +25,6 @@ public class Model {
   private int moves;
 
 
-  public static class Cell {
-    public int value;
-    public int row;
-    public int col;
-    public int prevCol = -1;
-    public int prevRow = -1;
-    public int nextCol = -1;
-    public int nextRow = -1;
-
-    public Cell(int value, int row, int col) {
-      this.value = value;
-      this.row = row;
-      this.col = col;
-      this.prevRow = row - 1;
-      this.prevCol = col - 1;
-      this.nextCol = col -1;
-      this.nextRow = row -1;
-    }
-  }
-
-
-  /**
-   * Constructor. Sets all tiles in the board to value -1.
-   *
-   * @param size The size n of the n x n Lights-out board.
-   */
-  public Model(int size) {
-    if (size < 1) {
-
-    }
-    board = new int[size][size];
-    for (int[] row : board) {
-      for (int tile : row) {
-        tile = 0;
-      }
-    }
-  }
 
   /**
    * @param row The row of the tile to be flipped
