@@ -9,7 +9,7 @@ Diagrams of program's overall organization, structure or data flow
 
 ### Set up
 
-...
+This program requires the ... . To download, go to ...url... .
 
 ### Running the Solver
 
@@ -42,4 +42,8 @@ The program then exits with the below message:
 
 ### Program Organization
 
-...
+```sequence
+Alice->Bob: Hello Bob, how are you?
+Note right of Bob: Bob thinks
+Bob-->Alice: I am good thanks!
+```
