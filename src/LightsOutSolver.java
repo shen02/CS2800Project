@@ -33,6 +33,7 @@ public class LightsOutSolver {
       throw new IllegalArgumentException("Please enter positive integers only.");
     }
 
+    // The Z3 Solver object.
     Solver s = ctx.mkSolver();
 
     // Represents the state of all boards after k moves. For example, the board at grid[0] is the
@@ -44,6 +45,7 @@ public class LightsOutSolver {
     // tile on the board can be flipped, the move array is identical to the grid array.
     BoolExpr[][][] move = new BoolExpr[k][n][n];
 
+    // Fill up the grid and move arrays with starting values.
     for (int turn = 0; turn < k; turn++) {
       for (int row = 0; row < n; row++) {
         for (int col = 0; col < n; col++) {
@@ -61,46 +63,53 @@ public class LightsOutSolver {
     BoolExpr flipped;
     // Constraint representing the tiles that don't flip with a certain move.
     BoolExpr unflipped;
+    // The current (i,j) tile in the below nested for-loop.
+    BoolExpr thisTile;
+    // The tile above thisTile.
+    BoolExpr upTile;
+    // The tile to the left of thisTile.
+    BoolExpr leftTile;
+    // The tile below thisTile.
+    BoolExpr downTile;
+    // The tile to the right of thisTile.
+    BoolExpr rightTile;
 
     for (int turn = 1; turn < k; turn++) {
       for (int row = 0; row < n; row++) {
         for (int col = 0; col < n; col++) {
+
           oneFlipOnly = ctx.mkXor(move[turn - 1][row][col], oneFlipOnly);
           unflipped = mkUnflipped(turn, row, col, ctx, grid);
-          // The tile to be clicked.
-          BoolExpr thisTile = ctx.mkXor(grid[turn][row][col], grid[turn - 1][row][col]);
-          // The tile above thisTile.
-          BoolExpr upTile = ctx.mkXor(grid[turn][(n + row - 1) % n][col],
+          thisTile = ctx.mkXor(grid[turn][row][col], grid[turn - 1][row][col]);
+          upTile = ctx.mkXor(grid[turn][(n + row - 1) % n][col],
               grid[turn - 1][(n + row - 1) % n][col]);
-          // The tile to the left of thisTile.
-          BoolExpr leftTile = ctx.mkXor(grid[turn][row][(n + col - 1) % n],
+          leftTile = ctx.mkXor(grid[turn][row][(n + col - 1) % n],
               grid[turn - 1][row][(n + col - 1) % n]);
-          // The tile below thisTile.
-          BoolExpr downTlie = ctx.mkXor(grid[turn][(row + 1) % n][col],
+          downTile = ctx.mkXor(grid[turn][(row + 1) % n][col],
               grid[turn - 1][(row + 1) % n][col]);
-          // The tile to the right of thisTile.
-          BoolExpr rightTile = ctx.mkXor(grid[turn][row][(col + 1) % n],
+          rightTile = ctx.mkXor(grid[turn][row][(col + 1) % n],
               grid[turn - 1][row][(col + 1) % n]);
 
-          // Checks for corner and edge cases.
+          // Determines which adjacent tiles are flipped according to the position of the current
+          // tile (i,j).
           if (row == 0 && col == 0) {
-            flipped = ctx.mkAnd(thisTile, downTlie, rightTile);
+            flipped = ctx.mkAnd(thisTile, downTile, rightTile);
           } else if (row == 0 && col == n - 1) {
-            flipped = ctx.mkAnd(thisTile, downTlie, leftTile);
+            flipped = ctx.mkAnd(thisTile, downTile, leftTile);
           } else if (row == n - 1 && col == 0) {
             flipped = ctx.mkAnd(thisTile, upTile, rightTile);
           } else if (row == n - 1 && col == n - 1) {
             flipped = ctx.mkAnd(thisTile, upTile, leftTile);
           } else if (row == 0) {
-            flipped = ctx.mkAnd(thisTile, downTlie, leftTile, rightTile);
+            flipped = ctx.mkAnd(thisTile, downTile, leftTile, rightTile);
           } else if (col == 0) {
-            flipped = ctx.mkAnd(thisTile, upTile, downTlie, rightTile);
+            flipped = ctx.mkAnd(thisTile, upTile, downTile, rightTile);
           } else if (row == n - 1) {
             flipped = ctx.mkAnd(thisTile, upTile, leftTile, rightTile);
           } else if (col == n - 1) {
-            flipped = ctx.mkAnd(thisTile, upTile, downTlie, leftTile);
+            flipped = ctx.mkAnd(thisTile, upTile, downTile, leftTile);
           } else {
-            flipped = ctx.mkAnd(thisTile, upTile, downTlie, leftTile, rightTile);
+            flipped = ctx.mkAnd(thisTile, upTile, downTile, leftTile, rightTile);
           }
 
           BoolExpr implication = ctx
@@ -113,7 +122,7 @@ public class LightsOutSolver {
       oneFlipOnly = ctx.mkFalse();
     }
 
-    // Creates the contraint that all tiles after the last move should be true.
+    // Creates the constraint that all tiles after the last move should be true.
     BoolExpr allTrue = ctx.mkTrue();
     for (int turn = 0; turn < k; turn++) {
       for (int row = 0; row < n; row++) {
