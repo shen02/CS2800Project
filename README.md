@@ -9,7 +9,7 @@ Diagrams of program's overall organization, structure or data flow
 
 ### Set up
 
-This program requires the ... . To download, go to ...url... .
+so the only issue is how do you add libz3java to the java path? I think everything else is fine just by cloning all things in this repo
 
 ### Running the Solver
 
