@@ -7,10 +7,14 @@ A repo-level README w/setup instructions
 
 Diagrams of program's overall organization, structure or data flow
 
-## Set up
+### Set up
 
 ...
 
-## Program Organization
+### Running the Solver
+
+...
+
+### Program Organization
 
 ...
