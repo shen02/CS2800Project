@@ -1,3 +1,4 @@
+
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Model;
@@ -181,7 +182,6 @@ public class LightsOutSolver {
         }
       }
     }
-
     return theRest;
   }
 }
