@@ -35,7 +35,7 @@ public class LightsOutSolver {
 
     // The Z3 Solver object.
     Solver s = ctx.mkSolver();
-
+    
     // Represents the state of all boards after k moves. For example, the board at grid[0] is the
     // state of the board at the start of the game. The board at grid[1] is the state of the board
     // after the first move.
@@ -77,9 +77,9 @@ public class LightsOutSolver {
     for (int turn = 1; turn < k; turn++) {
       for (int row = 0; row < n; row++) {
         for (int col = 0; col < n; col++) {
-
           oneFlipOnly = ctx.mkXor(move[turn - 1][row][col], oneFlipOnly);
           unflipped = mkUnflipped(turn, row, col, ctx, grid);
+
           thisTile = ctx.mkXor(grid[turn][row][col], grid[turn - 1][row][col]);
           upTile = ctx.mkXor(grid[turn][(n + row - 1) % n][col],
               grid[turn - 1][(n + row - 1) % n][col]);
@@ -111,13 +111,11 @@ public class LightsOutSolver {
           } else {
             flipped = ctx.mkAnd(thisTile, upTile, downTile, leftTile, rightTile);
           }
-
           BoolExpr implication = ctx
               .mkImplies(move[turn - 1][row][col], ctx.mkAnd(flipped, unflipped));
           s.add(implication);
         }
       }
-
       s.add(oneFlipOnly);
       oneFlipOnly = ctx.mkFalse();
     }
@@ -139,7 +137,7 @@ public class LightsOutSolver {
     // in no particular order, to win the game.
     if (s.check() == Status.SATISFIABLE) {
       Model m = s.getModel();
-
+      // Represents a board of tiles with value 1 or 0.
       int[][] result = new int[n][n];
 
       for (int row = 0; row < n; row++) {
@@ -151,18 +149,14 @@ public class LightsOutSolver {
               count++;
             }
           }
-
           result[row][col] = count % 2;
         }
       }
-
       System.out.println("Solution (click on the tiles marked \"1\"): ");
-
       for (int[] row : result) {
         for (int tile : row) {
           System.out.print(tile + "  ");
         }
-
         System.out.println();
       }
     } else {
@@ -190,7 +184,6 @@ public class LightsOutSolver {
       for (int j = 0; j < size; j++) {
         boolean oneOf = (i == row && j == col) || (i == row && j == col - 1) ||
             (i == row && j == col + 1) || (i == row - 1 && j == col) || (i == row + 1 && j == col);
-
         if (!oneOf) {
           theRest = ctx.mkAnd(ctx.mkIff(grid[turn][i][j], grid[turn - 1][i][j]), theRest);
         }
