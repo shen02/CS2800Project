@@ -27,9 +27,10 @@ The program will then construct several boolean expressions that will be delegat
 If a winning solution is found, the program will output a solution that tells the user to click on all tiles in the same location 
 as 1's in the outputted array to win the game. Such as follows:
 
-1    0    1 
-0    1    0
-1    0    1
+| 1 | 0 | 1 |
+|---|---|---|
+| 0 | 1 | 0 |
+| 1 | 0 | 1 |
 
 Else, if no winning solution is possible with the user-input, the following message will follow:
 
