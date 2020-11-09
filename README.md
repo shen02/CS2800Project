@@ -28,7 +28,6 @@ If a winning solution is found, the program will output a solution that tells th
 as 1's in the outputted array to win the game. Such as follows:
 
 | 1 | 0 | 1 |
-|---|---|---|
 | 0 | 1 | 0 |
 | 1 | 0 | 1 |
 
