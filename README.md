@@ -42,8 +42,19 @@ The program then exits with the below message:
 
 ### Program Organization
 
-```sequence
-Alice->Bob: Hello Bob, how are you?
-Note right of Bob: Bob thinks
-Bob-->Alice: I am good thanks!
-```
+_: **1. Messages**
+One -> Two: Simple
+Two ->> Three: Open arrow 
+Three -x Four: Lost message
+
+Three <-> Four: Bi-directional
+Two -> Two: To self
+
+Two -> One: Actors can be
+One <- Two: in any order
+
+Two -> Three: Regular
+Two <-- Three: Dashed 
+Two => Three: Bold
+
+One -> Four: Markdown support for messages: *Italic*, **Bold**, ~~strike through~~ and `inline code`. + {fab-font-awesome} Icons
