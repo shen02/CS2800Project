@@ -6,16 +6,21 @@ import com.microsoft.z3.Solver;
 import com.microsoft.z3.Status;
 
 /**
- * Represents a LightsOutSolver. Receives two user inputs representing the dimensions of a square
- * Lights Out board and the number of turns in which to win the game. If the board can be won with
- * the given number of turns, outputs the solution to win the game. Otherwise, outputs "Unable to
- * solve the board in [k] moves."
+ * Represents a SAT Solver program for the Lights Out game. Receives two user inputs representing
+ * the dimensions of a square Lights Out board and the number of turns in which to win the game. If
+ * the board can be won with the given number of turns, outputs the solution to win the game.
+ * Otherwise, outputs "Unable to solve the board in [k] moves."
  */
 public class LightsOutSolver {
 
   /**
-   * Creates constraints of a Lights Out board and gives the constraints to the Z3 SAT solver.
-   * Please refer to Part III of the report for more information on the constraint creations.
+   * Create an encoding of a Lights Out game. Iterates through all possible sequences of moves on
+   * the initial board, represented as boolean arrays. Uses constraints on the boolean arrays to
+   * represent the structure, rules, and objective of Lights Out. Provides all possible iterations
+   * to the Z3 SAT Solver, which then determines if any iteration is satisfiable. If such an
+   * iteration exists, print the winning solution to the user. If none of the iterations are
+   * satisfiable, then print message noting that the game configuration the user defined has no
+   * solution.
    *
    * @param ctx The Context object of a SAT solver. Responsible for creating constraints.
    * @param n   The dimensions of the Lights-Out game board.
