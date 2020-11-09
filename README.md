@@ -1,5 +1,5 @@
 # Lights Out SAT Solver
-Solving the Lights Out game using a SAT solver. If unfamiliar with the game, please take a look at games on [this site](https://www.geogebra.org/m/JexnDJpt) that provides various configurations of the game. 
+A program designed to solve a Lights Out game using a SAT solver. If unfamiliar with the game, please take a look at games on [this site](https://www.geogebra.org/m/JexnDJpt) that provides various configurations of the game. 
 
 Transparently states required packages/dependencies and how to install them
 
