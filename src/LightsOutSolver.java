@@ -75,6 +75,7 @@ public class LightsOutSolver {
           // The tile to the right of thisTile.
           BoolExpr rightTile = ctx.mkXor(grid[turn][row][(col + 1) % n],
               grid[turn - 1][row][(col + 1) % n]);
+
           // Checks for corner and edge cases.
           if (row == 0 && col == 0) {
             flipped = ctx.mkAnd(thisTile, downTlie, rightTile);
@@ -95,11 +96,13 @@ public class LightsOutSolver {
           } else {
             flipped = ctx.mkAnd(thisTile, upTile, downTlie, leftTile, rightTile);
           }
+
           BoolExpr implication = ctx
               .mkImplies(move[turn - 1][row][col], ctx.mkAnd(flipped, unflipped));
           s.add(implication);
         }
       }
+
       s.add(oneFlipOnly);
       oneFlipOnly = ctx.mkFalse();
     }
@@ -115,29 +118,41 @@ public class LightsOutSolver {
     }
     s.add(allTrue);
 
+    // The SAT Solver found a winning solution for the game in k moves. Construct a solution board
+    // of 0's and 1's where 1 means the user must click the tile in that position to win the game.
+    // All tiles with a 1 in the outputted solution board must be clicked in the Lights Out board,
+    // in no particular order, to win the game.
     if (s.check() == Status.SATISFIABLE) {
       Model m = s.getModel();
+
       int[][] result = new int[n][n];
+
       for (int row = 0; row < n; row++) {
         for (int col = 0; col < n; col++) {
           int count = 0;
+
           for (int turn = 0; turn < k; turn++) {
             if (m.evaluate(move[turn][row][col], true).isTrue()) {
               count++;
             }
           }
+
           result[row][col] = count % 2;
         }
       }
 
       System.out.println("Solution (click on the tiles marked \"1\"): ");
+
       for (int[] row : result) {
         for (int tile : row) {
           System.out.print(tile + "  ");
         }
+
         System.out.println();
       }
     } else {
+      // SAT Solver found all games with all possible sets of k moves unsatisfiable, meaning
+      // it is not possible to solve the specified game in k moves.
       System.out.println("Unable to solve the board in " + (k - 1) + " moves.");
     }
   }
@@ -160,6 +175,7 @@ public class LightsOutSolver {
       for (int j = 0; j < size; j++) {
         boolean oneOf = (i == row && j == col) || (i == row && j == col - 1) ||
             (i == row && j == col + 1) || (i == row - 1 && j == col) || (i == row + 1 && j == col);
+
         if (!oneOf) {
           theRest = ctx.mkAnd(ctx.mkIff(grid[turn][i][j], grid[turn - 1][i][j]), theRest);
         }
