@@ -5,29 +5,37 @@ import com.microsoft.z3.Solver;
 import com.microsoft.z3.Status;
 
 /**
- * The model representing a LightsOutSolver. Receives the user inputs of the dimensions of a Lights
- * Out board and the number of desired turns for the board to be solves. If the board is solvable
- * within the given number of turns, the model will output the solution; otherwise, it will print
- * the line "Unable to solve the board in [given value] moves."
+ * Represents a LightsOutSolver. Receives two user inputs representing the dimensions of a square
+ * Lights Out board and the number of turns in which to win the game. If the board can be won with
+ * the given number of turns, outputs the solution to win the game. Otherwise, outputs "Unable to
+ * solve the board in [k] moves."
  */
 public class LightsOutSolver {
 
   /**
-   * Creates and inputs constraints of a Lights Out board into the SAT solver. Please refer to Part
-   * III of the report for more information on the constraint creations.
+   * Creates constraints of a Lights Out board and gives the constraints to the Z3 SAT solver.
+   * Please refer to Part III of the report for more information on the constraint creations.
    *
    * @param ctx The Context object of a SAT solver. Responsible for creating constraints.
    * @param n   The dimensions of the Lights-Out game board.
    */
   public void sat(Context ctx, int n, int k) {
 
+    // Ensure that the user-provided inputs are of the expected data type. User-inputs n and k
+    // must be positive integers.
     if (n <= 0 || k <= 0) {
-      throw new IllegalArgumentException("Please enter positive values only.");
+      throw new IllegalArgumentException("Please enter positive integers only.");
     }
 
     Solver s = ctx.mkSolver();
 
+    // Represents the state of all boards after k moves. For example, the board at grid[0] is the
+    // state of the board at the start of the game. The board at grid[1] is the state of the board
+    // after the first move.
     BoolExpr[][][] grid = new BoolExpr[k][n][n];
+
+    // Represents the tiles that can be flipped for each of the k boards stored in grid. Since every
+    // tile on the board can be flipped, the move array is identical to the grid array.
     BoolExpr[][][] move = new BoolExpr[k][n][n];
 
     for (int turn = 0; turn < k; turn++) {
@@ -39,12 +47,15 @@ public class LightsOutSolver {
         }
       }
     }
-    // Constraints to ensure that only one move variable per grid[] is true for each turn.
+
+    // Represents the constraint ensuring that only one move variable per board in grid is true for
+    // each turn.
     BoolExpr oneFlipOnly = ctx.mkFalse();
-    // Constraints representing the tiles to be flipped with a move
+    // Constraint representing the tiles to be flipped with a move.
     BoolExpr flipped;
-    // Constraints representing the tiles to remain the same with a move
+    // Constraint representing the tiles that don't flip with a certain move.
     BoolExpr unflipped;
+
     for (int turn = 1; turn < k; turn++) {
       for (int row = 0; row < n; row++) {
         for (int col = 0; col < n; col++) {
@@ -64,7 +75,7 @@ public class LightsOutSolver {
           // The tile to the right of thisTile.
           BoolExpr rightTile = ctx.mkXor(grid[turn][row][(col + 1) % n],
               grid[turn - 1][row][(col + 1) % n]);
-          // checks for corner and edge cases.
+          // Checks for corner and edge cases.
           if (row == 0 && col == 0) {
             flipped = ctx.mkAnd(thisTile, downTlie, rightTile);
           } else if (row == 0 && col == n - 1) {
@@ -141,10 +152,10 @@ public class LightsOutSolver {
    * @param grid The array of boards of each turn.
    * @return A BoolExpr that represents all tiles that should not be flipped with a certain move.
    */
-  public BoolExpr mkUnflipped(int turn, int row, int col, Context ctx,
-      BoolExpr[][][] grid) {
+  public BoolExpr mkUnflipped(int turn, int row, int col, Context ctx, BoolExpr[][][] grid) {
     int size = grid[0].length;
     BoolExpr theRest = ctx.mkTrue();
+
     for (int i = 0; i < size; i++) {
       for (int j = 0; j < size; j++) {
         boolean oneOf = (i == row && j == col) || (i == row && j == col - 1) ||
@@ -154,6 +165,7 @@ public class LightsOutSolver {
         }
       }
     }
+
     return theRest;
   }
 }
