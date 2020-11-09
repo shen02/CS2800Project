@@ -166,6 +166,7 @@ public class LightsOutSolver {
         }
       }
     }
+
     return theRest;
   }
 }
