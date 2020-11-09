@@ -9,7 +9,8 @@ Diagrams of program's overall organization, structure or data flow
 
 ### Set up
 
-so the only issue is how do you add libz3java to the java path? I think everything else is fine just by cloning all things in this repo
+This program utilizes the Z3 Satisfiability Solver, whose Java library of the OSX system is included in this repository. If you wish to run this program on another 
+system, please proceed to the [Z3 release page](https://github.com/Z3Prover/z3/releases) and download the according zip files. For more installation of Z3, please visit the [Z3 README.md](https://github.com/Z3Prover/z3/blob/master/README.md).
 
 ### Running the Solver
 
