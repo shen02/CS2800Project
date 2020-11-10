@@ -46,4 +46,4 @@ The program then exits with the below message:
 
 ### Program Organization
 
-amy is doing this
+<img align="left" src="prog_diagram.jpg" width="600px" alt="picture">
