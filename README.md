@@ -1,9 +1,7 @@
 # Lights Out SAT Solver
 A program designed to solve a Lights Out game using a SAT solver. If unfamiliar with the game, please take a look at Lights Out games on [this site](https://www.geogebra.org/m/JexnDJpt) that provides various configurations of the game. 
 
-<img align="center" src="https://raw.githubusercontent.com/shen02/CS2800Project/master/Media/lights_out_play.gif" width="400px" alt="picture">
-
-![play_gif](https://raw.githubusercontent.com/shen02/CS2800Project/master/Media/lights_out_play.gif)
+<img align="left" src="https://raw.githubusercontent.com/shen02/CS2800Project/master/Media/lights_out_play.gif" width="300px" alt="gif">
 
 Playing a 3 x 3 Lights Out board with 2 states.
 
@@ -45,6 +43,8 @@ The program then exits with the below message:
 `"Exited from Lights Out SAT Solver. Goodbye."`
 
 ### Program Organization
+
+<img align="left" src="https://raw.githubusercontent.com/shen02/CS2800Project/master/Media/program_diagram.JPG" width="500px" alt="picture">
 
 ![Simple-Diagram](https://raw.githubusercontent.com/shen02/CS2800Project/master/Media/program_diagram.JPG)
 
