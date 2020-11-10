@@ -1,12 +1,6 @@
 # Lights Out SAT Solver
 A program designed to solve a Lights Out game using a SAT solver. If unfamiliar with the game, please take a look at Lights Out games on [this site](https://www.geogebra.org/m/JexnDJpt) that provides various configurations of the game. 
 
-Transparently states required packages/dependencies and how to install them
-
-A repo-level README w/setup instructions
-
-Diagrams of program's overall organization, structure or data flow
-
 ### Set up
 
 This program utilizes the Z3 Satisfiability Solver Java library of the OS X system, included in this repository. If you wish to run this program on another 
@@ -46,4 +40,6 @@ The program then exits with the below message:
 
 ### Program Organization
 
-![Diagram](https://raw.githubusercontent.com/shen02/CS2800Project/master/prog_diagram.JPG)
+![Simple-Diagram](https://raw.githubusercontent.com/shen02/CS2800Project/master/program_diagram.JPG)
+
+The above diagram displays a simplified version of data flow within our program. It shows that the user gives Stdin inputs n, k to be passed on to `LightsOutSolverMain`, which then proceeds to pass the two user inputs along with a `new Context()` object to `LightsOutSolver`. `LightsOutSolver` then constructs constraints that it then passes to the `Context` object it received, processes the satisfiability evaluation returned from the `Context` object, and prints results to Stdout according to the evaluation.
