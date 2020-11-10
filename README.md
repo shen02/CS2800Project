@@ -46,4 +46,4 @@ The program then exits with the below message:
 
 ### Program Organization
 
-<img align="left" src="prog_diagram.jpg" width="600px" alt="picture">
+![Simple Diagram of Program](prog_diagram.jpg)
