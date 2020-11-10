@@ -40,6 +40,6 @@ The program then exits with the below message:
 
 ### Program Organization
 
-![Simple-Diagram](https://raw.githubusercontent.com/shen02/CS2800Project/master/program_diagram.JPG)
+![Simple-Diagram](https://raw.githubusercontent.com/shen02/CS2800Project/master/Media/program_diagram.JPG)
 
 The above diagram displays a simplified version of data flow within our program. It shows that the user gives `Stdin` inputs n, k to be passed on to `LightsOutSolverMain`, which then proceeds to pass the two user inputs along with a `new Context()` object to `LightsOutSolver`. `LightsOutSolver` then constructs constraints that it then passes to the `Context` object it received, processes the satisfiability evaluation returned from the `Context` object, and prints results to `Stdout` according to the evaluation.
